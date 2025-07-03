@@ -1,8 +1,8 @@
-"""Add LoginCode table
+"""Add login codes table
 
-Revision ID: 7b147c8089b1
-Revises: c2d5a5c0b974
-Create Date: 2025-07-02 18:40:19.717566
+Revision ID: c7c6fef2eb02
+Revises: 4b8976c08210
+Create Date: 2025-07-04 00:42:14.823316
 
 """
 
@@ -12,8 +12,8 @@ from alembic import op
 # Polar Custom Imports
 
 # revision identifiers, used by Alembic.
-revision = "7b147c8089b1"
-down_revision = "c2d5a5c0b974"
+revision = "c7c6fef2eb02"
+down_revision = "4b8976c08210"
 branch_labels: tuple[str] | None = None
 depends_on: tuple[str] | None = None
 
