@@ -1231,6 +1231,307 @@
         ]
       }
     },
+    "/v1/oauth2/register": {
+      "post": {
+        "tags": [
+          "oauth2",
+          "clients",
+          "public"
+        ],
+        "summary": "Create Client",
+        "description": "Create an OAuth2 client.",
+        "operationId": "oauth2:clients:oauth2:create_client",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OAuth2ClientConfiguration"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "x-polar-allowed-subjects": [
+          "Anonymous",
+          "User"
+        ],
+        "x-speakeasy-mcp": {
+          "disabled": true
+        },
+        "x-speakeasy-group": "oauth2.clients",
+        "x-speakeasy-name-override": "create",
+        "x-codeSamples": [
+          {
+            "lang": "go",
+            "label": "Go (SDK)",
+            "source": "package main\n\nimport(\n\t\"context\"\n\t\"os\"\n\tpolargo \"github.com/polarsource/polar-go\"\n\t\"github.com/polarsource/polar-go/models/components\"\n\t\"log\"\n)\n\nfunc main() {\n    ctx := context.Background()\n\n    s := polargo.New(\n        polargo.WithSecurity(os.Getenv(\"POLAR_ACCESS_TOKEN\")),\n    )\n\n    res, err := s.Oauth2.Clients.Create(ctx, components.OAuth2ClientConfiguration{\n        RedirectUris: []string{\n            \"https://impolite-hippodrome.com/\",\n            \"https://acidic-tomography.net/\",\n        },\n        ClientName: \"<value>\",\n    })\n    if err != nil {\n        log.Fatal(err)\n    }\n    if res.Any != nil {\n        // handle response\n    }\n}"
+          },
+          {
+            "lang": "python",
+            "label": "Python (SDK)",
+            "source": "from polar_sdk import Polar\n\n\nwith Polar(\n    access_token=\"<YOUR_BEARER_TOKEN_HERE>\",\n) as polar:\n\n    res = polar.oauth2.clients.create(request={\n        \"redirect_uris\": [\n            \"https://impolite-hippodrome.com/\",\n            \"https://acidic-tomography.net/\",\n        ],\n        \"client_name\": \"<value>\",\n    })\n\n    # Handle response\n    print(res)"
+          },
+          {
+            "lang": "typescript",
+            "label": "Typescript (SDK)",
+            "source": "import { Polar } from \"@polar-sh/sdk\";\n\nconst polar = new Polar({\n  accessToken: process.env[\"POLAR_ACCESS_TOKEN\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await polar.oauth2.clients.create({\n    redirectUris: [\n      \"https://impolite-hippodrome.com/\",\n      \"https://acidic-tomography.net/\",\n    ],\n    clientName: \"<value>\",\n  });\n\n  console.log(result);\n}\n\nrun();"
+          },
+          {
+            "lang": "php",
+            "label": "PHP (SDK)",
+            "source": "declare(strict_types=1);\n\nrequire 'vendor/autoload.php';\n\nuse Polar;\nuse Polar\\Models\\Components;\n\n$sdk = Polar\\Polar::builder()\n    ->setSecurity(\n        '<YOUR_BEARER_TOKEN_HERE>'\n    )\n    ->build();\n\n$request = new Components\\OAuth2ClientConfiguration(\n    redirectUris: [\n        'https://impolite-hippodrome.com/',\n        'https://acidic-tomography.net/',\n    ],\n    clientName: '<value>',\n);\n\n$response = $sdk->oauth2->clients->create(\n    request: $request\n);\n\nif ($response->any !== null) {\n    // handle response\n}"
+          }
+        ]
+      }
+    },
+    "/v1/oauth2/register/{client_id}": {
+      "get": {
+        "tags": [
+          "oauth2",
+          "clients",
+          "public"
+        ],
+        "summary": "Get Client",
+        "description": "Get an OAuth2 client by Client ID.",
+        "operationId": "oauth2:clients:oauth2:get_client",
+        "parameters": [
+          {
+            "name": "client_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Client Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "x-polar-allowed-subjects": [
+          "Anonymous",
+          "User"
+        ],
+        "x-speakeasy-mcp": {
+          "disabled": true
+        },
+        "x-speakeasy-group": "oauth2.clients",
+        "x-speakeasy-name-override": "get",
+        "x-codeSamples": [
+          {
+            "lang": "go",
+            "label": "Go (SDK)",
+            "source": "package main\n\nimport(\n\t\"context\"\n\t\"os\"\n\tpolargo \"github.com/polarsource/polar-go\"\n\t\"log\"\n)\n\nfunc main() {\n    ctx := context.Background()\n\n    s := polargo.New(\n        polargo.WithSecurity(os.Getenv(\"POLAR_ACCESS_TOKEN\")),\n    )\n\n    res, err := s.Oauth2.Clients.Get(ctx, \"<id>\")\n    if err != nil {\n        log.Fatal(err)\n    }\n    if res.Any != nil {\n        // handle response\n    }\n}"
+          },
+          {
+            "lang": "python",
+            "label": "Python (SDK)",
+            "source": "from polar_sdk import Polar\n\n\nwith Polar(\n    access_token=\"<YOUR_BEARER_TOKEN_HERE>\",\n) as polar:\n\n    res = polar.oauth2.clients.get(client_id=\"<id>\")\n\n    # Handle response\n    print(res)"
+          },
+          {
+            "lang": "typescript",
+            "label": "Typescript (SDK)",
+            "source": "import { Polar } from \"@polar-sh/sdk\";\n\nconst polar = new Polar({\n  accessToken: process.env[\"POLAR_ACCESS_TOKEN\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await polar.oauth2.clients.get({\n    clientId: \"<id>\",\n  });\n\n  console.log(result);\n}\n\nrun();"
+          },
+          {
+            "lang": "php",
+            "label": "PHP (SDK)",
+            "source": "declare(strict_types=1);\n\nrequire 'vendor/autoload.php';\n\nuse Polar;\n\n$sdk = Polar\\Polar::builder()\n    ->setSecurity(\n        '<YOUR_BEARER_TOKEN_HERE>'\n    )\n    ->build();\n\n\n\n$response = $sdk->oauth2->clients->get(\n    clientId: '<id>'\n);\n\nif ($response->any !== null) {\n    // handle response\n}"
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "oauth2",
+          "clients",
+          "public"
+        ],
+        "summary": "Update Client",
+        "description": "Update an OAuth2 client.",
+        "operationId": "oauth2:clients:oauth2:update_client",
+        "parameters": [
+          {
+            "name": "client_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Client Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OAuth2ClientConfigurationUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "x-polar-allowed-subjects": [
+          "Anonymous",
+          "User"
+        ],
+        "x-speakeasy-mcp": {
+          "disabled": true
+        },
+        "x-speakeasy-group": "oauth2.clients",
+        "x-speakeasy-name-override": "update",
+        "x-codeSamples": [
+          {
+            "lang": "go",
+            "label": "Go (SDK)",
+            "source": "package main\n\nimport(\n\t\"context\"\n\t\"os\"\n\tpolargo \"github.com/polarsource/polar-go\"\n\t\"github.com/polarsource/polar-go/models/components\"\n\t\"log\"\n)\n\nfunc main() {\n    ctx := context.Background()\n\n    s := polargo.New(\n        polargo.WithSecurity(os.Getenv(\"POLAR_ACCESS_TOKEN\")),\n    )\n\n    res, err := s.Oauth2.Clients.Update(ctx, \"<id>\", components.OAuth2ClientConfigurationUpdate{\n        RedirectUris: []string{\n            \"https://classic-cantaloupe.org\",\n            \"https://corrupt-status.biz/\",\n        },\n        ClientName: \"<value>\",\n        ClientID: \"<id>\",\n    })\n    if err != nil {\n        log.Fatal(err)\n    }\n    if res.Any != nil {\n        // handle response\n    }\n}"
+          },
+          {
+            "lang": "python",
+            "label": "Python (SDK)",
+            "source": "from polar_sdk import Polar\n\n\nwith Polar(\n    access_token=\"<YOUR_BEARER_TOKEN_HERE>\",\n) as polar:\n\n    res = polar.oauth2.clients.update(client_id=\"<id>\", o_auth2_client_configuration_update={\n        \"redirect_uris\": [\n            \"https://classic-cantaloupe.org\",\n            \"https://corrupt-status.biz/\",\n        ],\n        \"client_name\": \"<value>\",\n        \"client_id\": \"<id>\",\n    })\n\n    # Handle response\n    print(res)"
+          },
+          {
+            "lang": "typescript",
+            "label": "Typescript (SDK)",
+            "source": "import { Polar } from \"@polar-sh/sdk\";\n\nconst polar = new Polar({\n  accessToken: process.env[\"POLAR_ACCESS_TOKEN\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await polar.oauth2.clients.update({\n    clientId: \"<id>\",\n    oAuth2ClientConfigurationUpdate: {\n      redirectUris: [\n        \"https://classic-cantaloupe.org\",\n        \"https://corrupt-status.biz/\",\n      ],\n      clientName: \"<value>\",\n      clientId: \"<id>\",\n    },\n  });\n\n  console.log(result);\n}\n\nrun();"
+          },
+          {
+            "lang": "php",
+            "label": "PHP (SDK)",
+            "source": "declare(strict_types=1);\n\nrequire 'vendor/autoload.php';\n\nuse Polar;\nuse Polar\\Models\\Components;\n\n$sdk = Polar\\Polar::builder()\n    ->setSecurity(\n        '<YOUR_BEARER_TOKEN_HERE>'\n    )\n    ->build();\n\n$oAuth2ClientConfigurationUpdate = new Components\\OAuth2ClientConfigurationUpdate(\n    redirectUris: [\n        'https://classic-cantaloupe.org',\n        'https://corrupt-status.biz/',\n    ],\n    clientName: '<value>',\n    clientId: '<id>',\n);\n\n$response = $sdk->oauth2->clients->update(\n    clientId: '<id>',\n    oAuth2ClientConfigurationUpdate: $oAuth2ClientConfigurationUpdate\n\n);\n\nif ($response->any !== null) {\n    // handle response\n}"
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "oauth2",
+          "clients",
+          "public"
+        ],
+        "summary": "Delete Client",
+        "description": "Delete an OAuth2 client.",
+        "operationId": "oauth2:clients:oauth2:delete_client",
+        "parameters": [
+          {
+            "name": "client_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Client Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "x-polar-allowed-subjects": [
+          "Anonymous",
+          "User"
+        ],
+        "x-speakeasy-mcp": {
+          "disabled": true
+        },
+        "x-speakeasy-group": "oauth2.clients",
+        "x-speakeasy-name-override": "delete",
+        "x-codeSamples": [
+          {
+            "lang": "go",
+            "label": "Go (SDK)",
+            "source": "package main\n\nimport(\n\t\"context\"\n\t\"os\"\n\tpolargo \"github.com/polarsource/polar-go\"\n\t\"log\"\n)\n\nfunc main() {\n    ctx := context.Background()\n\n    s := polargo.New(\n        polargo.WithSecurity(os.Getenv(\"POLAR_ACCESS_TOKEN\")),\n    )\n\n    res, err := s.Oauth2.Clients.Delete(ctx, \"<id>\")\n    if err != nil {\n        log.Fatal(err)\n    }\n    if res.Any != nil {\n        // handle response\n    }\n}"
+          },
+          {
+            "lang": "python",
+            "label": "Python (SDK)",
+            "source": "from polar_sdk import Polar\n\n\nwith Polar(\n    access_token=\"<YOUR_BEARER_TOKEN_HERE>\",\n) as polar:\n\n    res = polar.oauth2.clients.delete(client_id=\"<id>\")\n\n    # Handle response\n    print(res)"
+          },
+          {
+            "lang": "typescript",
+            "label": "Typescript (SDK)",
+            "source": "import { Polar } from \"@polar-sh/sdk\";\n\nconst polar = new Polar({\n  accessToken: process.env[\"POLAR_ACCESS_TOKEN\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await polar.oauth2.clients.delete({\n    clientId: \"<id>\",\n  });\n\n  console.log(result);\n}\n\nrun();"
+          },
+          {
+            "lang": "php",
+            "label": "PHP (SDK)",
+            "source": "declare(strict_types=1);\n\nrequire 'vendor/autoload.php';\n\nuse Polar;\n\n$sdk = Polar\\Polar::builder()\n    ->setSecurity(\n        '<YOUR_BEARER_TOKEN_HERE>'\n    )\n    ->build();\n\n\n\n$response = $sdk->oauth2->clients->delete(\n    clientId: '<id>'\n);\n\nif ($response->any !== null) {\n    // handle response\n}"
+          }
+        ]
+      }
+    },
     "/v1/oauth2/authorize": {
       "get": {
         "tags": [
@@ -1318,6 +1619,9 @@
                   },
                   {
                     "$ref": "#/components/schemas/RefreshTokenRequest"
+                  },
+                  {
+                    "$ref": "#/components/schemas/WebTokenRequest"
                   }
                 ]
               }
@@ -3793,22 +4097,22 @@
           {
             "lang": "go",
             "label": "Go (SDK)",
-            "source": "package main\n\nimport(\n\t\"context\"\n\t\"os\"\n\tpolargo \"github.com/polarsource/polar-go\"\n\t\"github.com/polarsource/polar-go/models/components\"\n\t\"log\"\n)\n\nfunc main() {\n    ctx := context.Background()\n\n    s := polargo.New(\n        polargo.WithSecurity(os.Getenv(\"POLAR_ACCESS_TOKEN\")),\n    )\n\n    res, err := s.Products.Create(ctx, components.CreateProductCreateProductCreateOneTime(\n        components.ProductCreateOneTime{\n            Name: \"<value>\",\n            Prices: []components.ProductCreateOneTimePrices{\n                components.CreateProductCreateOneTimePricesProductPriceFixedCreate(\n                    components.ProductPriceFixedCreate{\n                        PriceAmount: 677078,\n                    },\n                ),\n            },\n            OrganizationID: polargo.Pointer(\"1dbfc517-0bbf-4301-9ba8-555ca42b9737\"),\n        },\n    ))\n    if err != nil {\n        log.Fatal(err)\n    }\n    if res.Product != nil {\n        // handle response\n    }\n}"
+            "source": "package main\n\nimport(\n\t\"context\"\n\t\"os\"\n\tpolargo \"github.com/polarsource/polar-go\"\n\t\"github.com/polarsource/polar-go/models/components\"\n\t\"log\"\n)\n\nfunc main() {\n    ctx := context.Background()\n\n    s := polargo.New(\n        polargo.WithSecurity(os.Getenv(\"POLAR_ACCESS_TOKEN\")),\n    )\n\n    res, err := s.Products.Create(ctx, components.CreateProductCreateProductCreateOneTime(\n        components.ProductCreateOneTime{\n            Name: \"<value>\",\n            Prices: []components.ProductCreateOneTimePrices{\n                components.CreateProductCreateOneTimePricesCustom(\n                    components.ProductPriceCustomCreate{},\n                ),\n            },\n            OrganizationID: polargo.Pointer(\"1dbfc517-0bbf-4301-9ba8-555ca42b9737\"),\n        },\n    ))\n    if err != nil {\n        log.Fatal(err)\n    }\n    if res.Product != nil {\n        // handle response\n    }\n}"
           },
           {
             "lang": "python",
             "label": "Python (SDK)",
-            "source": "from polar_sdk import Polar\n\n\nwith Polar(\n    access_token=\"<YOUR_BEARER_TOKEN_HERE>\",\n) as polar:\n\n    res = polar.products.create(request={\n        \"name\": \"<value>\",\n        \"prices\": [\n            {\n                \"amount_type\": \"fixed\",\n                \"price_amount\": 677078,\n                \"price_currency\": \"usd\",\n            },\n        ],\n        \"organization_id\": \"1dbfc517-0bbf-4301-9ba8-555ca42b9737\",\n    })\n\n    # Handle response\n    print(res)"
+            "source": "from polar_sdk import Polar\n\n\nwith Polar(\n    access_token=\"<YOUR_BEARER_TOKEN_HERE>\",\n) as polar:\n\n    res = polar.products.create(request={\n        \"name\": \"<value>\",\n        \"prices\": [\n            {\n                \"amount_type\": \"custom\",\n                \"price_currency\": \"usd\",\n            },\n        ],\n        \"organization_id\": \"1dbfc517-0bbf-4301-9ba8-555ca42b9737\",\n    })\n\n    # Handle response\n    print(res)"
           },
           {
             "lang": "typescript",
             "label": "Typescript (SDK)",
-            "source": "import { Polar } from \"@polar-sh/sdk\";\n\nconst polar = new Polar({\n  accessToken: process.env[\"POLAR_ACCESS_TOKEN\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await polar.products.create({\n    name: \"<value>\",\n    prices: [\n      {\n        amountType: \"fixed\",\n        priceAmount: 677078,\n        priceCurrency: \"usd\",\n      },\n    ],\n    organizationId: \"1dbfc517-0bbf-4301-9ba8-555ca42b9737\",\n  });\n\n  console.log(result);\n}\n\nrun();"
+            "source": "import { Polar } from \"@polar-sh/sdk\";\n\nconst polar = new Polar({\n  accessToken: process.env[\"POLAR_ACCESS_TOKEN\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await polar.products.create({\n    name: \"<value>\",\n    prices: [\n      {\n        amountType: \"custom\",\n        priceCurrency: \"usd\",\n      },\n    ],\n    organizationId: \"1dbfc517-0bbf-4301-9ba8-555ca42b9737\",\n  });\n\n  console.log(result);\n}\n\nrun();"
           },
           {
             "lang": "php",
             "label": "PHP (SDK)",
-            "source": "declare(strict_types=1);\n\nrequire 'vendor/autoload.php';\n\nuse Polar;\nuse Polar\\Models\\Components;\n\n$sdk = Polar\\Polar::builder()\n    ->setSecurity(\n        '<YOUR_BEARER_TOKEN_HERE>'\n    )\n    ->build();\n\n$request = new Components\\ProductCreateOneTime(\n    name: '<value>',\n    prices: [\n        new Components\\ProductPriceFixedCreate(\n            priceAmount: 677078,\n        ),\n    ],\n    organizationId: '1dbfc517-0bbf-4301-9ba8-555ca42b9737',\n);\n\n$response = $sdk->products->create(\n    request: $request\n);\n\nif ($response->product !== null) {\n    // handle response\n}"
+            "source": "declare(strict_types=1);\n\nrequire 'vendor/autoload.php';\n\nuse Polar;\nuse Polar\\Models\\Components;\n\n$sdk = Polar\\Polar::builder()\n    ->setSecurity(\n        '<YOUR_BEARER_TOKEN_HERE>'\n    )\n    ->build();\n\n$request = new Components\\ProductCreateOneTime(\n    name: '<value>',\n    prices: [\n        new Components\\ProductPriceCustomCreate(),\n    ],\n    organizationId: '1dbfc517-0bbf-4301-9ba8-555ca42b9737',\n);\n\n$response = $sdk->products->create(\n    request: $request\n);\n\nif ($response->product !== null) {\n    // handle response\n}"
           }
         ]
       }
@@ -9568,10 +9872,10 @@
                   "type": "null"
                 }
               ],
-              "description": "Filter by name or email.",
+              "description": "Filter by name, email, or external ID.",
               "title": "Query"
             },
-            "description": "Filter by name or email."
+            "description": "Filter by name, email, or external ID."
           },
           {
             "name": "page",
@@ -12050,6 +12354,494 @@
         ]
       }
     },
+    "/v1/customer-portal/seats": {
+      "get": {
+        "tags": [
+          "customer_portal",
+          "seats",
+          "public"
+        ],
+        "summary": "List Seats",
+        "description": "**Scopes**: `customer_portal:read` `customer_portal:write`",
+        "operationId": "customer_portal:seats:list_seats",
+        "security": [
+          {
+            "customer_session": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "subscription_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Subscription ID",
+              "title": "Subscription Id"
+            },
+            "description": "Subscription ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SeatsList"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication required"
+          },
+          "403": {
+            "description": "Not permitted or seat-based pricing not enabled"
+          },
+          "404": {
+            "description": "Subscription not found"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "x-polar-allowed-subjects": [
+          "Customer"
+        ],
+        "x-speakeasy-mcp": {
+          "disabled": true
+        },
+        "x-speakeasy-group": "customer_portal.seats",
+        "x-speakeasy-name-override": "list_seats",
+        "x-codeSamples": [
+          {
+            "lang": "go",
+            "label": "Go (SDK)",
+            "source": "package main\n\nimport(\n\t\"context\"\n\tpolargo \"github.com/polarsource/polar-go\"\n\t\"os\"\n\t\"github.com/polarsource/polar-go/models/operations\"\n\t\"log\"\n)\n\nfunc main() {\n    ctx := context.Background()\n\n    s := polargo.New()\n\n    res, err := s.CustomerPortal.Seats.ListSeats(ctx, operations.CustomerPortalSeatsListSeatsSecurity{\n        CustomerSession: os.Getenv(\"POLAR_CUSTOMER_SESSION\"),\n    }, \"<id>\")\n    if err != nil {\n        log.Fatal(err)\n    }\n    if res.SeatsList != nil {\n        // handle response\n    }\n}"
+          },
+          {
+            "lang": "python",
+            "label": "Python (SDK)",
+            "source": "import polar_sdk\nfrom polar_sdk import Polar\n\n\nwith Polar() as polar:\n\n    res = polar.customer_portal.seats.list_seats(security=polar_sdk.CustomerPortalSeatsListSeatsSecurity(\n        customer_session=\"<YOUR_BEARER_TOKEN_HERE>\",\n    ), subscription_id=\"<id>\")\n\n    # Handle response\n    print(res)"
+          },
+          {
+            "lang": "typescript",
+            "label": "Typescript (SDK)",
+            "source": "import { Polar } from \"@polar-sh/sdk\";\n\nconst polar = new Polar();\n\nasync function run() {\n  const result = await polar.customerPortal.seats.listSeats({\n    customerSession: process.env[\"POLAR_CUSTOMER_SESSION\"] ?? \"\",\n  }, {\n    subscriptionId: \"<id>\",\n  });\n\n  console.log(result);\n}\n\nrun();"
+          },
+          {
+            "lang": "php",
+            "label": "PHP (SDK)",
+            "source": "declare(strict_types=1);\n\nrequire 'vendor/autoload.php';\n\nuse Polar;\nuse Polar\\Models\\Operations;\n\n$sdk = Polar\\Polar::builder()->build();\n\n\n$requestSecurity = new Operations\\CustomerPortalSeatsListSeatsSecurity(\n    customerSession: '<YOUR_BEARER_TOKEN_HERE>',\n);\n\n$response = $sdk->customerPortal->seats->listSeats(\n    security: $requestSecurity,\n    subscriptionId: '<id>'\n\n);\n\nif ($response->seatsList !== null) {\n    // handle response\n}"
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "customer_portal",
+          "seats",
+          "public"
+        ],
+        "summary": "Assign Seat",
+        "description": "**Scopes**: `customer_portal:write`",
+        "operationId": "customer_portal:seats:assign_seat",
+        "security": [
+          {
+            "customer_session": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SeatAssign"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomerSeat"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "No available seats or customer already has a seat"
+          },
+          "401": {
+            "description": "Authentication required"
+          },
+          "403": {
+            "description": "Not permitted or seat-based pricing not enabled"
+          },
+          "404": {
+            "description": "Subscription or customer not found"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "x-polar-allowed-subjects": [
+          "Customer"
+        ],
+        "x-speakeasy-mcp": {
+          "disabled": true
+        },
+        "x-speakeasy-group": "customer_portal.seats",
+        "x-speakeasy-name-override": "assign_seat",
+        "x-codeSamples": [
+          {
+            "lang": "go",
+            "label": "Go (SDK)",
+            "source": "package main\n\nimport(\n\t\"context\"\n\tpolargo \"github.com/polarsource/polar-go\"\n\t\"github.com/polarsource/polar-go/models/components\"\n\t\"os\"\n\t\"github.com/polarsource/polar-go/models/operations\"\n\t\"log\"\n)\n\nfunc main() {\n    ctx := context.Background()\n\n    s := polargo.New()\n\n    res, err := s.CustomerPortal.Seats.AssignSeat(ctx, components.SeatAssign{}, operations.CustomerPortalSeatsAssignSeatSecurity{\n        CustomerSession: os.Getenv(\"POLAR_CUSTOMER_SESSION\"),\n    })\n    if err != nil {\n        log.Fatal(err)\n    }\n    if res.CustomerSeat != nil {\n        // handle response\n    }\n}"
+          },
+          {
+            "lang": "python",
+            "label": "Python (SDK)",
+            "source": "import polar_sdk\nfrom polar_sdk import Polar\n\n\nwith Polar() as polar:\n\n    res = polar.customer_portal.seats.assign_seat(security=polar_sdk.CustomerPortalSeatsAssignSeatSecurity(\n        customer_session=\"<YOUR_BEARER_TOKEN_HERE>\",\n    ), request={})\n\n    # Handle response\n    print(res)"
+          },
+          {
+            "lang": "typescript",
+            "label": "Typescript (SDK)",
+            "source": "import { Polar } from \"@polar-sh/sdk\";\n\nconst polar = new Polar();\n\nasync function run() {\n  const result = await polar.customerPortal.seats.assignSeat({\n    customerSession: process.env[\"POLAR_CUSTOMER_SESSION\"] ?? \"\",\n  }, {});\n\n  console.log(result);\n}\n\nrun();"
+          },
+          {
+            "lang": "php",
+            "label": "PHP (SDK)",
+            "source": "declare(strict_types=1);\n\nrequire 'vendor/autoload.php';\n\nuse Polar;\nuse Polar\\Models\\Components;\nuse Polar\\Models\\Operations;\n\n$sdk = Polar\\Polar::builder()->build();\n\n$request = new Components\\SeatAssign();\n$requestSecurity = new Operations\\CustomerPortalSeatsAssignSeatSecurity(\n    customerSession: '<YOUR_BEARER_TOKEN_HERE>',\n);\n\n$response = $sdk->customerPortal->seats->assignSeat(\n    request: $request,\n    security: $requestSecurity\n);\n\nif ($response->customerSeat !== null) {\n    // handle response\n}"
+          }
+        ]
+      }
+    },
+    "/v1/customer-portal/seats/{seat_id}": {
+      "delete": {
+        "tags": [
+          "customer_portal",
+          "seats",
+          "public"
+        ],
+        "summary": "Revoke Seat",
+        "description": "**Scopes**: `customer_portal:write`",
+        "operationId": "customer_portal:seats:revoke_seat",
+        "security": [
+          {
+            "customer_session": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "seat_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Seat Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomerSeat"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication required"
+          },
+          "403": {
+            "description": "Not permitted or seat-based pricing not enabled"
+          },
+          "404": {
+            "description": "Seat not found"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "x-polar-allowed-subjects": [
+          "Customer"
+        ],
+        "x-speakeasy-mcp": {
+          "disabled": true
+        },
+        "x-speakeasy-group": "customer_portal.seats",
+        "x-speakeasy-name-override": "revoke_seat",
+        "x-codeSamples": [
+          {
+            "lang": "go",
+            "label": "Go (SDK)",
+            "source": "package main\n\nimport(\n\t\"context\"\n\tpolargo \"github.com/polarsource/polar-go\"\n\t\"os\"\n\t\"github.com/polarsource/polar-go/models/operations\"\n\t\"log\"\n)\n\nfunc main() {\n    ctx := context.Background()\n\n    s := polargo.New()\n\n    res, err := s.CustomerPortal.Seats.RevokeSeat(ctx, operations.CustomerPortalSeatsRevokeSeatSecurity{\n        CustomerSession: os.Getenv(\"POLAR_CUSTOMER_SESSION\"),\n    }, \"4b3d74b3-01ff-4aac-bd03-320535cd5ce4\")\n    if err != nil {\n        log.Fatal(err)\n    }\n    if res.CustomerSeat != nil {\n        // handle response\n    }\n}"
+          },
+          {
+            "lang": "python",
+            "label": "Python (SDK)",
+            "source": "import polar_sdk\nfrom polar_sdk import Polar\n\n\nwith Polar() as polar:\n\n    res = polar.customer_portal.seats.revoke_seat(security=polar_sdk.CustomerPortalSeatsRevokeSeatSecurity(\n        customer_session=\"<YOUR_BEARER_TOKEN_HERE>\",\n    ), seat_id=\"4b3d74b3-01ff-4aac-bd03-320535cd5ce4\")\n\n    # Handle response\n    print(res)"
+          },
+          {
+            "lang": "typescript",
+            "label": "Typescript (SDK)",
+            "source": "import { Polar } from \"@polar-sh/sdk\";\n\nconst polar = new Polar();\n\nasync function run() {\n  const result = await polar.customerPortal.seats.revokeSeat({\n    customerSession: process.env[\"POLAR_CUSTOMER_SESSION\"] ?? \"\",\n  }, {\n    seatId: \"4b3d74b3-01ff-4aac-bd03-320535cd5ce4\",\n  });\n\n  console.log(result);\n}\n\nrun();"
+          },
+          {
+            "lang": "php",
+            "label": "PHP (SDK)",
+            "source": "declare(strict_types=1);\n\nrequire 'vendor/autoload.php';\n\nuse Polar;\nuse Polar\\Models\\Operations;\n\n$sdk = Polar\\Polar::builder()->build();\n\n\n$requestSecurity = new Operations\\CustomerPortalSeatsRevokeSeatSecurity(\n    customerSession: '<YOUR_BEARER_TOKEN_HERE>',\n);\n\n$response = $sdk->customerPortal->seats->revokeSeat(\n    security: $requestSecurity,\n    seatId: '4b3d74b3-01ff-4aac-bd03-320535cd5ce4'\n\n);\n\nif ($response->customerSeat !== null) {\n    // handle response\n}"
+          }
+        ]
+      }
+    },
+    "/v1/customer-portal/seats/{seat_id}/resend": {
+      "post": {
+        "tags": [
+          "customer_portal",
+          "seats",
+          "public"
+        ],
+        "summary": "Resend Invitation",
+        "description": "**Scopes**: `customer_portal:write`",
+        "operationId": "customer_portal:seats:resend_invitation",
+        "security": [
+          {
+            "customer_session": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "seat_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Seat Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomerSeat"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Seat is not pending or already claimed"
+          },
+          "401": {
+            "description": "Authentication required"
+          },
+          "403": {
+            "description": "Not permitted or seat-based pricing not enabled"
+          },
+          "404": {
+            "description": "Seat not found"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "x-polar-allowed-subjects": [
+          "Customer"
+        ],
+        "x-speakeasy-mcp": {
+          "disabled": true
+        },
+        "x-speakeasy-group": "customer_portal.seats",
+        "x-speakeasy-name-override": "resend_invitation",
+        "x-codeSamples": [
+          {
+            "lang": "go",
+            "label": "Go (SDK)",
+            "source": "package main\n\nimport(\n\t\"context\"\n\tpolargo \"github.com/polarsource/polar-go\"\n\t\"os\"\n\t\"github.com/polarsource/polar-go/models/operations\"\n\t\"log\"\n)\n\nfunc main() {\n    ctx := context.Background()\n\n    s := polargo.New()\n\n    res, err := s.CustomerPortal.Seats.ResendInvitation(ctx, operations.CustomerPortalSeatsResendInvitationSecurity{\n        CustomerSession: os.Getenv(\"POLAR_CUSTOMER_SESSION\"),\n    }, \"e3817437-8d53-4578-88d2-1dc256825965\")\n    if err != nil {\n        log.Fatal(err)\n    }\n    if res.CustomerSeat != nil {\n        // handle response\n    }\n}"
+          },
+          {
+            "lang": "python",
+            "label": "Python (SDK)",
+            "source": "import polar_sdk\nfrom polar_sdk import Polar\n\n\nwith Polar() as polar:\n\n    res = polar.customer_portal.seats.resend_invitation(security=polar_sdk.CustomerPortalSeatsResendInvitationSecurity(\n        customer_session=\"<YOUR_BEARER_TOKEN_HERE>\",\n    ), seat_id=\"e3817437-8d53-4578-88d2-1dc256825965\")\n\n    # Handle response\n    print(res)"
+          },
+          {
+            "lang": "typescript",
+            "label": "Typescript (SDK)",
+            "source": "import { Polar } from \"@polar-sh/sdk\";\n\nconst polar = new Polar();\n\nasync function run() {\n  const result = await polar.customerPortal.seats.resendInvitation({\n    customerSession: process.env[\"POLAR_CUSTOMER_SESSION\"] ?? \"\",\n  }, {\n    seatId: \"e3817437-8d53-4578-88d2-1dc256825965\",\n  });\n\n  console.log(result);\n}\n\nrun();"
+          },
+          {
+            "lang": "php",
+            "label": "PHP (SDK)",
+            "source": "declare(strict_types=1);\n\nrequire 'vendor/autoload.php';\n\nuse Polar;\nuse Polar\\Models\\Operations;\n\n$sdk = Polar\\Polar::builder()->build();\n\n\n$requestSecurity = new Operations\\CustomerPortalSeatsResendInvitationSecurity(\n    customerSession: '<YOUR_BEARER_TOKEN_HERE>',\n);\n\n$response = $sdk->customerPortal->seats->resendInvitation(\n    security: $requestSecurity,\n    seatId: 'e3817437-8d53-4578-88d2-1dc256825965'\n\n);\n\nif ($response->customerSeat !== null) {\n    // handle response\n}"
+          }
+        ]
+      }
+    },
+    "/v1/customer-portal/seats/subscriptions": {
+      "get": {
+        "tags": [
+          "customer_portal",
+          "seats",
+          "public"
+        ],
+        "summary": "List Claimed Subscriptions",
+        "description": "List all subscriptions where the authenticated customer has claimed a seat.\n\n**Scopes**: `customer_portal:read` `customer_portal:write`",
+        "operationId": "customer_portal:seats:list_claimed_subscriptions",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/CustomerSubscription"
+                  },
+                  "type": "array",
+                  "title": "Response Customer Portal:Seats:List Claimed Subscriptions"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication required"
+          }
+        },
+        "security": [
+          {
+            "customer_session": []
+          }
+        ],
+        "x-polar-allowed-subjects": [
+          "Customer"
+        ],
+        "x-speakeasy-mcp": {
+          "disabled": true
+        },
+        "x-speakeasy-group": "customer_portal.seats",
+        "x-speakeasy-name-override": "list_claimed_subscriptions",
+        "x-codeSamples": [
+          {
+            "lang": "go",
+            "label": "Go (SDK)",
+            "source": "package main\n\nimport(\n\t\"context\"\n\tpolargo \"github.com/polarsource/polar-go\"\n\t\"os\"\n\t\"github.com/polarsource/polar-go/models/operations\"\n\t\"log\"\n)\n\nfunc main() {\n    ctx := context.Background()\n\n    s := polargo.New()\n\n    res, err := s.CustomerPortal.Seats.ListClaimedSubscriptions(ctx, operations.CustomerPortalSeatsListClaimedSubscriptionsSecurity{\n        CustomerSession: os.Getenv(\"POLAR_CUSTOMER_SESSION\"),\n    })\n    if err != nil {\n        log.Fatal(err)\n    }\n    if res.ResponseCustomerPortalSeatsListClaimedSubscriptions != nil {\n        // handle response\n    }\n}"
+          },
+          {
+            "lang": "python",
+            "label": "Python (SDK)",
+            "source": "import polar_sdk\nfrom polar_sdk import Polar\n\n\nwith Polar() as polar:\n\n    res = polar.customer_portal.seats.list_claimed_subscriptions(security=polar_sdk.CustomerPortalSeatsListClaimedSubscriptionsSecurity(\n        customer_session=\"<YOUR_BEARER_TOKEN_HERE>\",\n    ))\n\n    # Handle response\n    print(res)"
+          },
+          {
+            "lang": "typescript",
+            "label": "Typescript (SDK)",
+            "source": "import { Polar } from \"@polar-sh/sdk\";\n\nconst polar = new Polar();\n\nasync function run() {\n  const result = await polar.customerPortal.seats.listClaimedSubscriptions({\n    customerSession: process.env[\"POLAR_CUSTOMER_SESSION\"] ?? \"\",\n  });\n\n  console.log(result);\n}\n\nrun();"
+          },
+          {
+            "lang": "php",
+            "label": "PHP (SDK)",
+            "source": "declare(strict_types=1);\n\nrequire 'vendor/autoload.php';\n\nuse Polar;\nuse Polar\\Models\\Operations;\n\n$sdk = Polar\\Polar::builder()->build();\n\n\n$requestSecurity = new Operations\\CustomerPortalSeatsListClaimedSubscriptionsSecurity(\n    customerSession: '<YOUR_BEARER_TOKEN_HERE>',\n);\n\n$response = $sdk->customerPortal->seats->listClaimedSubscriptions(\n    security: $requestSecurity\n);\n\nif ($response->responseCustomerPortalSeatsListClaimedSubscriptions !== null) {\n    // handle response\n}"
+          }
+        ]
+      }
+    },
+    "/v1/customer-portal/customer-session/introspect": {
+      "get": {
+        "tags": [
+          "customer_portal",
+          "customer-session",
+          "public"
+        ],
+        "summary": "Introspect Customer Session",
+        "description": "Introspect the current session and return its information.\n\n**Scopes**: `customer_portal:read` `customer_portal:write`",
+        "operationId": "customer_portal:customer-session:introspect",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomerCustomerSession"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "customer_session": []
+          }
+        ],
+        "x-polar-allowed-subjects": [
+          "Customer"
+        ],
+        "x-speakeasy-mcp": {
+          "disabled": true
+        },
+        "x-speakeasy-group": "customer_portal.customer-session",
+        "x-speakeasy-name-override": "introspect",
+        "x-codeSamples": [
+          {
+            "lang": "go",
+            "label": "Go (SDK)",
+            "source": "package main\n\nimport(\n\t\"context\"\n\tpolargo \"github.com/polarsource/polar-go\"\n\t\"os\"\n\t\"github.com/polarsource/polar-go/models/operations\"\n\t\"log\"\n)\n\nfunc main() {\n    ctx := context.Background()\n\n    s := polargo.New()\n\n    res, err := s.CustomerPortal.CustomerSession.Introspect(ctx, operations.CustomerPortalCustomerSessionIntrospectSecurity{\n        CustomerSession: os.Getenv(\"POLAR_CUSTOMER_SESSION\"),\n    })\n    if err != nil {\n        log.Fatal(err)\n    }\n    if res.CustomerCustomerSession != nil {\n        // handle response\n    }\n}"
+          },
+          {
+            "lang": "python",
+            "label": "Python (SDK)",
+            "source": "import polar_sdk\nfrom polar_sdk import Polar\n\n\nwith Polar() as polar:\n\n    res = polar.customer_portal.customer_session.introspect(security=polar_sdk.CustomerPortalCustomerSessionIntrospectSecurity(\n        customer_session=\"<YOUR_BEARER_TOKEN_HERE>\",\n    ))\n\n    # Handle response\n    print(res)"
+          },
+          {
+            "lang": "typescript",
+            "label": "Typescript (SDK)",
+            "source": "import { Polar } from \"@polar-sh/sdk\";\n\nconst polar = new Polar();\n\nasync function run() {\n  const result = await polar.customerPortal.customerSession.introspect({\n    customerSession: process.env[\"POLAR_CUSTOMER_SESSION\"] ?? \"\",\n  });\n\n  console.log(result);\n}\n\nrun();"
+          },
+          {
+            "lang": "php",
+            "label": "PHP (SDK)",
+            "source": "declare(strict_types=1);\n\nrequire 'vendor/autoload.php';\n\nuse Polar;\nuse Polar\\Models\\Operations;\n\n$sdk = Polar\\Polar::builder()->build();\n\n\n$requestSecurity = new Operations\\CustomerPortalCustomerSessionIntrospectSecurity(\n    customerSession: '<YOUR_BEARER_TOKEN_HERE>',\n);\n\n$response = $sdk->customerPortal->customerSession->introspect(\n    security: $requestSecurity\n);\n\nif ($response->customerCustomerSession !== null) {\n    // handle response\n}"
+          }
+        ]
+      }
+    },
     "/v1/customer-portal/downloadables/": {
       "get": {
         "tags": [
@@ -14393,22 +15185,22 @@
           {
             "lang": "go",
             "label": "Go (SDK)",
-            "source": "package main\n\nimport(\n\t\"context\"\n\t\"os\"\n\tpolargo \"github.com/polarsource/polar-go\"\n\t\"github.com/polarsource/polar-go/models/components\"\n\t\"github.com/polarsource/polar-go/models/operations\"\n\t\"log\"\n)\n\nfunc main() {\n    ctx := context.Background()\n\n    s := polargo.New(\n        polargo.WithSecurity(os.Getenv(\"POLAR_ACCESS_TOKEN\")),\n    )\n\n    res, err := s.CustomerSessions.Create(ctx, operations.CreateCustomerSessionsCreateCustomerSessionCreateCustomerSessionCustomerExternalIDCreate(\n        components.CustomerSessionCustomerExternalIDCreate{\n            ExternalCustomerID: \"<id>\",\n        },\n    ))\n    if err != nil {\n        log.Fatal(err)\n    }\n    if res.CustomerSession != nil {\n        // handle response\n    }\n}"
+            "source": "package main\n\nimport(\n\t\"context\"\n\t\"os\"\n\tpolargo \"github.com/polarsource/polar-go\"\n\t\"github.com/polarsource/polar-go/models/components\"\n\t\"github.com/polarsource/polar-go/models/operations\"\n\t\"log\"\n)\n\nfunc main() {\n    ctx := context.Background()\n\n    s := polargo.New(\n        polargo.WithSecurity(os.Getenv(\"POLAR_ACCESS_TOKEN\")),\n    )\n\n    res, err := s.CustomerSessions.Create(ctx, operations.CreateCustomerSessionsCreateCustomerSessionCreateCustomerSessionCustomerExternalIDCreate(\n        components.CustomerSessionCustomerExternalIDCreate{\n            ReturnURL: polargo.Pointer(\"https://example.com/account\"),\n            ExternalCustomerID: \"<id>\",\n        },\n    ))\n    if err != nil {\n        log.Fatal(err)\n    }\n    if res.CustomerSession != nil {\n        // handle response\n    }\n}"
           },
           {
             "lang": "python",
             "label": "Python (SDK)",
-            "source": "from polar_sdk import Polar\n\n\nwith Polar(\n    access_token=\"<YOUR_BEARER_TOKEN_HERE>\",\n) as polar:\n\n    res = polar.customer_sessions.create(request={\n        \"external_customer_id\": \"<id>\",\n    })\n\n    # Handle response\n    print(res)"
+            "source": "from polar_sdk import Polar\n\n\nwith Polar(\n    access_token=\"<YOUR_BEARER_TOKEN_HERE>\",\n) as polar:\n\n    res = polar.customer_sessions.create(request={\n        \"return_url\": \"https://example.com/account\",\n        \"external_customer_id\": \"<id>\",\n    })\n\n    # Handle response\n    print(res)"
           },
           {
             "lang": "typescript",
             "label": "Typescript (SDK)",
-            "source": "import { Polar } from \"@polar-sh/sdk\";\n\nconst polar = new Polar({\n  accessToken: process.env[\"POLAR_ACCESS_TOKEN\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await polar.customerSessions.create({\n    externalCustomerId: \"<id>\",\n  });\n\n  console.log(result);\n}\n\nrun();"
+            "source": "import { Polar } from \"@polar-sh/sdk\";\n\nconst polar = new Polar({\n  accessToken: process.env[\"POLAR_ACCESS_TOKEN\"] ?? \"\",\n});\n\nasync function run() {\n  const result = await polar.customerSessions.create({\n    returnUrl: \"https://example.com/account\",\n    externalCustomerId: \"<id>\",\n  });\n\n  console.log(result);\n}\n\nrun();"
           },
           {
             "lang": "php",
             "label": "PHP (SDK)",
-            "source": "declare(strict_types=1);\n\nrequire 'vendor/autoload.php';\n\nuse Polar;\nuse Polar\\Models\\Components;\n\n$sdk = Polar\\Polar::builder()\n    ->setSecurity(\n        '<YOUR_BEARER_TOKEN_HERE>'\n    )\n    ->build();\n\n$request = new Components\\CustomerSessionCustomerExternalIDCreate(\n    externalCustomerId: '<id>',\n);\n\n$response = $sdk->customerSessions->create(\n    request: $request\n);\n\nif ($response->customerSession !== null) {\n    // handle response\n}"
+            "source": "declare(strict_types=1);\n\nrequire 'vendor/autoload.php';\n\nuse Polar;\nuse Polar\\Models\\Components;\n\n$sdk = Polar\\Polar::builder()\n    ->setSecurity(\n        '<YOUR_BEARER_TOKEN_HERE>'\n    )\n    ->build();\n\n$request = new Components\\CustomerSessionCustomerExternalIDCreate(\n    returnUrl: 'https://example.com/account',\n    externalCustomerId: '<id>',\n);\n\n$response = $sdk->customerSessions->create(\n    request: $request\n);\n\nif ($response->customerSession !== null) {\n    // handle response\n}"
           }
         ]
       }
@@ -23734,6 +24526,18 @@
             "title": "Success Url",
             "description": "URL where the customer will be redirected after a successful payment."
           },
+          "return_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Return Url",
+            "description": "When set, a back button will be shown in the checkout to return to this URL."
+          },
           "embed_origin": {
             "anyOf": [
               {
@@ -23750,6 +24554,30 @@
             "type": "integer",
             "title": "Amount",
             "description": "Amount in cents, before discounts and taxes."
+          },
+          "seats": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Seats",
+            "description": "Number of seats for seat-based pricing."
+          },
+          "price_per_seat": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Price Per Seat",
+            "description": "Price per seat in cents for the current seat count, based on the applicable tier. Only relevant for seat-based pricing."
           },
           "discount_amount": {
             "type": "integer",
@@ -24139,6 +24967,7 @@
           "url",
           "expires_at",
           "success_url",
+          "return_url",
           "embed_origin",
           "amount",
           "discount_amount",
@@ -24284,6 +25113,20 @@
               }
             ],
             "title": "Amount"
+          },
+          "seats": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "maximum": 1000,
+                "minimum": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Seats",
+            "description": "Number of seats for seat-based pricing."
           },
           "is_business_customer": {
             "anyOf": [
@@ -25681,6 +26524,20 @@
             ],
             "title": "Amount"
           },
+          "seats": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "maximum": 1000,
+                "minimum": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Seats",
+            "description": "Number of seats for seat-based pricing. Required for seat-based products."
+          },
           "customer_id": {
             "anyOf": [
               {
@@ -25837,6 +26694,21 @@
             ],
             "title": "Success Url",
             "description": "URL where the customer will be redirected after a successful payment.You can add the `checkout_id={CHECKOUT_ID}` query parameter to retrieve the checkout session id."
+          },
+          "return_url": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 2083,
+                "minLength": 1,
+                "format": "uri"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Return Url",
+            "description": "When set, a back button will be shown in the checkout to return to this URL."
           },
           "embed_origin": {
             "anyOf": [
@@ -26129,6 +27001,20 @@
             ],
             "title": "Amount"
           },
+          "seats": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "maximum": 1000,
+                "minimum": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Seats",
+            "description": "Number of seats for seat-based pricing. Required for seat-based products."
+          },
           "customer_id": {
             "anyOf": [
               {
@@ -26285,6 +27171,21 @@
             ],
             "title": "Success Url",
             "description": "URL where the customer will be redirected after a successful payment.You can add the `checkout_id={CHECKOUT_ID}` query parameter to retrieve the checkout session id."
+          },
+          "return_url": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 2083,
+                "minLength": 1,
+                "format": "uri"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Return Url",
+            "description": "When set, a back button will be shown in the checkout to return to this URL."
           },
           "embed_origin": {
             "anyOf": [
@@ -26431,6 +27332,20 @@
             ],
             "title": "Amount"
           },
+          "seats": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "maximum": 1000,
+                "minimum": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Seats",
+            "description": "Number of seats for seat-based pricing. Required for seat-based products."
+          },
           "customer_id": {
             "anyOf": [
               {
@@ -26588,6 +27503,21 @@
             "title": "Success Url",
             "description": "URL where the customer will be redirected after a successful payment.You can add the `checkout_id={CHECKOUT_ID}` query parameter to retrieve the checkout session id."
           },
+          "return_url": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 2083,
+                "minLength": 1,
+                "format": "uri"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Return Url",
+            "description": "When set, a back button will be shown in the checkout to return to this URL."
+          },
           "embed_origin": {
             "anyOf": [
               {
@@ -26699,6 +27629,18 @@
             "title": "Success Url",
             "description": "URL where the customer will be redirected after a successful payment."
           },
+          "return_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Return Url",
+            "description": "When set, a back button will be shown in the checkout to return to this URL."
+          },
           "embed_origin": {
             "anyOf": [
               {
@@ -26715,6 +27657,30 @@
             "type": "integer",
             "title": "Amount",
             "description": "Amount in cents, before discounts and taxes."
+          },
+          "seats": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Seats",
+            "description": "Number of seats for seat-based pricing."
+          },
+          "price_per_seat": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Price Per Seat",
+            "description": "Price per seat in cents for the current seat count, based on the applicable tier. Only relevant for seat-based pricing."
           },
           "discount_amount": {
             "type": "integer",
@@ -27011,6 +27977,7 @@
           "url",
           "expires_at",
           "success_url",
+          "return_url",
           "embed_origin",
           "amount",
           "discount_amount",
@@ -27133,6 +28100,18 @@
             "title": "Success Url",
             "description": "URL where the customer will be redirected after a successful payment."
           },
+          "return_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Return Url",
+            "description": "When set, a back button will be shown in the checkout to return to this URL."
+          },
           "embed_origin": {
             "anyOf": [
               {
@@ -27149,6 +28128,30 @@
             "type": "integer",
             "title": "Amount",
             "description": "Amount in cents, before discounts and taxes."
+          },
+          "seats": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Seats",
+            "description": "Number of seats for seat-based pricing."
+          },
+          "price_per_seat": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Price Per Seat",
+            "description": "Price per seat in cents for the current seat count, based on the applicable tier. Only relevant for seat-based pricing."
           },
           "discount_amount": {
             "type": "integer",
@@ -27449,6 +28452,7 @@
           "url",
           "expires_at",
           "success_url",
+          "return_url",
           "embed_origin",
           "amount",
           "discount_amount",
@@ -27580,6 +28584,20 @@
               }
             ],
             "title": "Amount"
+          },
+          "seats": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "maximum": 1000,
+                "minimum": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Seats",
+            "description": "Number of seats for seat-based pricing."
           },
           "is_business_customer": {
             "anyOf": [
@@ -27803,6 +28821,21 @@
             "title": "Success Url",
             "description": "URL where the customer will be redirected after a successful payment.You can add the `checkout_id={CHECKOUT_ID}` query parameter to retrieve the checkout session id."
           },
+          "return_url": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 2083,
+                "minLength": 1,
+                "format": "uri"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Return Url",
+            "description": "When set, a back button will be shown in the checkout to return to this URL."
+          },
           "embed_origin": {
             "anyOf": [
               {
@@ -27887,6 +28920,20 @@
               }
             ],
             "title": "Amount"
+          },
+          "seats": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "maximum": 1000,
+                "minimum": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Seats",
+            "description": "Number of seats for seat-based pricing."
           },
           "is_business_customer": {
             "anyOf": [
@@ -31257,6 +32304,32 @@
         ],
         "title": "CustomerCustomerMeterSortProperty"
       },
+      "CustomerCustomerSession": {
+        "properties": {
+          "expires_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Expires At"
+          },
+          "return_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Return Url"
+          }
+        },
+        "type": "object",
+        "required": [
+          "expires_at",
+          "return_url"
+        ],
+        "title": "CustomerCustomerSession"
+      },
       "CustomerMeter": {
         "properties": {
           "id": {
@@ -31463,10 +32536,15 @@
             "title": "Total Amount",
             "description": "Amount in cents, after discounts and taxes."
           },
-          "from_balance_amount": {
+          "applied_balance_amount": {
             "type": "integer",
-            "title": "From Balance Amount",
-            "description": "How much of this invoice was paid using the customer's balance. Amount in cents."
+            "title": "Applied Balance Amount",
+            "description": "Customer's balance amount applied to this invoice. Can increase the total amount paid, if the customer has a negative balance,  or decrease it, if the customer has a positive balance.Amount in cents."
+          },
+          "due_amount": {
+            "type": "integer",
+            "title": "Due Amount",
+            "description": "Amount in cents that is due for this order."
           },
           "refunded_amount": {
             "type": "integer",
@@ -31616,7 +32694,8 @@
           "net_amount",
           "tax_amount",
           "total_amount",
-          "from_balance_amount",
+          "applied_balance_amount",
+          "due_amount",
           "refunded_amount",
           "refunded_tax_amount",
           "currency",
@@ -32656,6 +33735,131 @@
         "title": "CustomerProduct",
         "description": "Schema of a product for customer portal."
       },
+      "CustomerSeat": {
+        "properties": {
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At",
+            "description": "Creation timestamp of the object."
+          },
+          "modified_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Modified At",
+            "description": "Last modification timestamp of the object."
+          },
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id",
+            "description": "The seat ID"
+          },
+          "subscription_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Subscription Id",
+            "description": "The subscription ID"
+          },
+          "status": {
+            "$ref": "#/components/schemas/SeatStatus",
+            "description": "Status of the seat"
+          },
+          "customer_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Customer Id",
+            "description": "The assigned customer ID"
+          },
+          "customer_email": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Customer Email",
+            "description": "The assigned customer email"
+          },
+          "invitation_token_expires_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Invitation Token Expires At",
+            "description": "When the invitation token expires"
+          },
+          "claimed_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Claimed At",
+            "description": "When the seat was claimed"
+          },
+          "revoked_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Revoked At",
+            "description": "When the seat was revoked"
+          },
+          "seat_metadata": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Seat Metadata",
+            "description": "Additional metadata for the seat"
+          }
+        },
+        "type": "object",
+        "required": [
+          "created_at",
+          "modified_at",
+          "id",
+          "subscription_id",
+          "status"
+        ],
+        "title": "CustomerSeat"
+      },
       "CustomerSession": {
         "properties": {
           "created_at": {
@@ -32692,6 +33896,17 @@
             "format": "date-time",
             "title": "Expires At"
           },
+          "return_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Return Url"
+          },
           "customer_portal_url": {
             "type": "string",
             "title": "Customer Portal Url"
@@ -32712,6 +33927,7 @@
           "id",
           "token",
           "expires_at",
+          "return_url",
           "customer_portal_url",
           "customer_id",
           "customer"
@@ -32721,6 +33937,24 @@
       },
       "CustomerSessionCustomerExternalIDCreate": {
         "properties": {
+          "return_url": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 2083,
+                "minLength": 1,
+                "format": "uri"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Return Url",
+            "description": "When set, a back button will be shown in the customer portal to return to this URL.",
+            "examples": [
+              "https://example.com/account"
+            ]
+          },
           "external_customer_id": {
             "type": "string",
             "title": "External Customer Id",
@@ -32736,6 +33970,24 @@
       },
       "CustomerSessionCustomerIDCreate": {
         "properties": {
+          "return_url": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 2083,
+                "minLength": 1,
+                "format": "uri"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Return Url",
+            "description": "When set, a back button will be shown in the customer portal to return to this URL.",
+            "examples": [
+              "https://example.com/account"
+            ]
+          },
           "customer_id": {
             "type": "string",
             "format": "uuid4",
@@ -36517,81 +37769,53 @@
           "code": {
             "anyOf": [
               {
-                "anyOf": [
-                  {
-                    "type": "string"
-                  },
-                  {
-                    "type": "null"
-                  }
-                ],
-                "description": "Code customers can use to apply the discount during checkout. Must be between 3 and 256 characters long and contain only alphanumeric characters.If not provided, the discount can only be applied via the API."
+                "type": "string"
               },
               {
                 "type": "null"
               }
             ],
-            "title": "Code"
+            "title": "Code",
+            "description": "Code customers can use to apply the discount during checkout. Must be between 3 and 256 characters long and contain only alphanumeric characters.If not provided, the discount can only be applied via the API."
           },
           "starts_at": {
             "anyOf": [
               {
-                "anyOf": [
-                  {
-                    "type": "string",
-                    "format": "date-time"
-                  },
-                  {
-                    "type": "null"
-                  }
-                ],
-                "description": "Optional timestamp after which the discount is redeemable."
+                "type": "string",
+                "format": "date-time"
               },
               {
                 "type": "null"
               }
             ],
-            "title": "Starts At"
+            "title": "Starts At",
+            "description": "Optional timestamp after which the discount is redeemable."
           },
           "ends_at": {
             "anyOf": [
               {
-                "anyOf": [
-                  {
-                    "type": "string",
-                    "format": "date-time"
-                  },
-                  {
-                    "type": "null"
-                  }
-                ],
-                "description": "Optional timestamp after which the discount is no longer redeemable."
+                "type": "string",
+                "format": "date-time"
               },
               {
                 "type": "null"
               }
             ],
-            "title": "Ends At"
+            "title": "Ends At",
+            "description": "Optional timestamp after which the discount is no longer redeemable."
           },
           "max_redemptions": {
             "anyOf": [
               {
-                "anyOf": [
-                  {
-                    "type": "integer",
-                    "minimum": 1
-                  },
-                  {
-                    "type": "null"
-                  }
-                ],
-                "description": "Optional maximum number of times the discount can be redeemed."
+                "type": "integer",
+                "minimum": 1
               },
               {
                 "type": "null"
               }
             ],
-            "title": "Max Redemptions"
+            "title": "Max Redemptions",
+            "description": "Optional maximum number of times the discount can be redeemed."
           },
           "duration": {
             "anyOf": [
@@ -36645,8 +37869,7 @@
               {
                 "type": "string",
                 "pattern": "usd",
-                "description": "The currency. Currently, only `usd` is supported.",
-                "default": "usd"
+                "description": "The currency. Currently, only `usd` is supported."
               },
               {
                 "type": "null"
@@ -40241,8 +41464,7 @@
           "filter": {
             "anyOf": [
               {
-                "$ref": "#/components/schemas/Filter",
-                "description": "The filter to apply on events that'll be used to calculate the meter."
+                "$ref": "#/components/schemas/Filter"
               },
               {
                 "type": "null"
@@ -41419,6 +42641,253 @@
         ],
         "title": "NotPermitted"
       },
+      "OAuth2ClientConfiguration": {
+        "properties": {
+          "redirect_uris": {
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "format": "uri"
+            },
+            "type": "array",
+            "title": "Redirect Uris"
+          },
+          "token_endpoint_auth_method": {
+            "type": "string",
+            "enum": [
+              "client_secret_basic",
+              "client_secret_post",
+              "none"
+            ],
+            "title": "Token Endpoint Auth Method",
+            "default": "client_secret_post"
+          },
+          "grant_types": {
+            "items": {
+              "type": "string",
+              "enum": [
+                "authorization_code",
+                "refresh_token"
+              ]
+            },
+            "type": "array",
+            "title": "Grant Types",
+            "default": [
+              "authorization_code",
+              "refresh_token"
+            ]
+          },
+          "response_types": {
+            "items": {
+              "type": "string",
+              "const": "code"
+            },
+            "type": "array",
+            "title": "Response Types",
+            "default": [
+              "code"
+            ]
+          },
+          "scope": {
+            "type": "string",
+            "title": "Scope",
+            "default": "openid profile email user:read organizations:read organizations:write custom_fields:read custom_fields:write discounts:read discounts:write checkout_links:read checkout_links:write checkouts:read checkouts:write transactions:read transactions:write payouts:read payouts:write products:read products:write benefits:read benefits:write events:read events:write meters:read meters:write files:read files:write subscriptions:read subscriptions:write customers:read customers:write customer_meters:read customer_sessions:write orders:read orders:write refunds:read refunds:write payments:read metrics:read webhooks:read webhooks:write external_organizations:read license_keys:read license_keys:write repositories:read repositories:write issues:read issues:write customer_portal:read customer_portal:write notifications:read notifications:write notification_recipients:read notification_recipients:write"
+          },
+          "client_name": {
+            "type": "string",
+            "title": "Client Name"
+          },
+          "client_uri": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Client Uri"
+          },
+          "logo_uri": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 2083,
+                "minLength": 1,
+                "format": "uri"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Logo Uri"
+          },
+          "tos_uri": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 2083,
+                "minLength": 1,
+                "format": "uri"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tos Uri"
+          },
+          "policy_uri": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 2083,
+                "minLength": 1,
+                "format": "uri"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Policy Uri"
+          },
+          "default_sub_type": {
+            "$ref": "#/components/schemas/SubType",
+            "default": "organization"
+          }
+        },
+        "type": "object",
+        "required": [
+          "redirect_uris",
+          "client_name"
+        ],
+        "title": "OAuth2ClientConfiguration"
+      },
+      "OAuth2ClientConfigurationUpdate": {
+        "properties": {
+          "redirect_uris": {
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "format": "uri"
+            },
+            "type": "array",
+            "title": "Redirect Uris"
+          },
+          "token_endpoint_auth_method": {
+            "type": "string",
+            "enum": [
+              "client_secret_basic",
+              "client_secret_post",
+              "none"
+            ],
+            "title": "Token Endpoint Auth Method",
+            "default": "client_secret_post"
+          },
+          "grant_types": {
+            "items": {
+              "type": "string",
+              "enum": [
+                "authorization_code",
+                "refresh_token"
+              ]
+            },
+            "type": "array",
+            "title": "Grant Types",
+            "default": [
+              "authorization_code",
+              "refresh_token"
+            ]
+          },
+          "response_types": {
+            "items": {
+              "type": "string",
+              "const": "code"
+            },
+            "type": "array",
+            "title": "Response Types",
+            "default": [
+              "code"
+            ]
+          },
+          "scope": {
+            "type": "string",
+            "title": "Scope",
+            "default": "openid profile email user:read organizations:read organizations:write custom_fields:read custom_fields:write discounts:read discounts:write checkout_links:read checkout_links:write checkouts:read checkouts:write transactions:read transactions:write payouts:read payouts:write products:read products:write benefits:read benefits:write events:read events:write meters:read meters:write files:read files:write subscriptions:read subscriptions:write customers:read customers:write customer_meters:read customer_sessions:write orders:read orders:write refunds:read refunds:write payments:read metrics:read webhooks:read webhooks:write external_organizations:read license_keys:read license_keys:write repositories:read repositories:write issues:read issues:write customer_portal:read customer_portal:write notifications:read notifications:write notification_recipients:read notification_recipients:write"
+          },
+          "client_name": {
+            "type": "string",
+            "title": "Client Name"
+          },
+          "client_uri": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Client Uri"
+          },
+          "logo_uri": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 2083,
+                "minLength": 1,
+                "format": "uri"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Logo Uri"
+          },
+          "tos_uri": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 2083,
+                "minLength": 1,
+                "format": "uri"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tos Uri"
+          },
+          "policy_uri": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 2083,
+                "minLength": 1,
+                "format": "uri"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Policy Uri"
+          },
+          "default_sub_type": {
+            "$ref": "#/components/schemas/SubType",
+            "default": "organization"
+          },
+          "client_id": {
+            "type": "string",
+            "title": "Client Id"
+          }
+        },
+        "type": "object",
+        "required": [
+          "redirect_uris",
+          "client_name",
+          "client_id"
+        ],
+        "title": "OAuth2ClientConfigurationUpdate"
+      },
       "OAuth2ClientPublic": {
         "properties": {
           "created_at": {
@@ -41579,10 +43048,15 @@
             "title": "Total Amount",
             "description": "Amount in cents, after discounts and taxes."
           },
-          "from_balance_amount": {
+          "applied_balance_amount": {
             "type": "integer",
-            "title": "From Balance Amount",
-            "description": "How much of this invoice was paid using the customer's balance. Amount in cents."
+            "title": "Applied Balance Amount",
+            "description": "Customer's balance amount applied to this invoice. Can increase the total amount paid, if the customer has a negative balance,  or decrease it, if the customer has a positive balance.Amount in cents."
+          },
+          "due_amount": {
+            "type": "integer",
+            "title": "Due Amount",
+            "description": "Amount in cents that is due for this order."
           },
           "refunded_amount": {
             "type": "integer",
@@ -41724,6 +43198,11 @@
             "title": "Custom Field Data",
             "description": "Key-value object storing custom field values."
           },
+          "platform_fee_amount": {
+            "type": "integer",
+            "title": "Platform Fee Amount",
+            "description": "Platform fee amount in cents."
+          },
           "customer": {
             "$ref": "#/components/schemas/OrderCustomer"
           },
@@ -41792,7 +43271,8 @@
           "net_amount",
           "tax_amount",
           "total_amount",
-          "from_balance_amount",
+          "applied_balance_amount",
+          "due_amount",
           "refunded_amount",
           "refunded_tax_amount",
           "currency",
@@ -41807,6 +43287,7 @@
           "subscription_id",
           "checkout_id",
           "metadata",
+          "platform_fee_amount",
           "customer",
           "user_id",
           "product",
@@ -42747,6 +44228,10 @@
           "notification_settings": {
             "$ref": "#/components/schemas/OrganizationNotificationSettings",
             "description": "Settings related to notifications"
+          },
+          "customer_email_settings": {
+            "$ref": "#/components/schemas/OrganizationCustomerEmailSettings",
+            "description": "Settings related to customer emails"
           }
         },
         "type": "object",
@@ -42764,7 +44249,8 @@
           "details_submitted_at",
           "feature_settings",
           "subscription_settings",
-          "notification_settings"
+          "notification_settings",
+          "customer_email_settings"
         ],
         "title": "Organization"
       },
@@ -43100,6 +44586,16 @@
                 "type": "null"
               }
             ]
+          },
+          "customer_email_settings": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/OrganizationCustomerEmailSettings"
+              },
+              {
+                "type": "null"
+              }
+            ]
           }
         },
         "type": "object",
@@ -43108,6 +44604,54 @@
           "slug"
         ],
         "title": "OrganizationCreate"
+      },
+      "OrganizationCustomerEmailSettings": {
+        "properties": {
+          "order_confirmation": {
+            "type": "boolean",
+            "title": "Order Confirmation"
+          },
+          "subscription_cancellation": {
+            "type": "boolean",
+            "title": "Subscription Cancellation"
+          },
+          "subscription_confirmation": {
+            "type": "boolean",
+            "title": "Subscription Confirmation"
+          },
+          "subscription_cycled": {
+            "type": "boolean",
+            "title": "Subscription Cycled"
+          },
+          "subscription_past_due": {
+            "type": "boolean",
+            "title": "Subscription Past Due"
+          },
+          "subscription_revoked": {
+            "type": "boolean",
+            "title": "Subscription Revoked"
+          },
+          "subscription_uncanceled": {
+            "type": "boolean",
+            "title": "Subscription Uncanceled"
+          },
+          "subscription_updated": {
+            "type": "boolean",
+            "title": "Subscription Updated"
+          }
+        },
+        "type": "object",
+        "required": [
+          "order_confirmation",
+          "subscription_cancellation",
+          "subscription_confirmation",
+          "subscription_cycled",
+          "subscription_past_due",
+          "subscription_revoked",
+          "subscription_uncanceled",
+          "subscription_updated"
+        ],
+        "title": "OrganizationCustomerEmailSettings"
       },
       "OrganizationDetails": {
         "properties": {
@@ -43189,6 +44733,12 @@
             "type": "boolean",
             "title": "Issue Funding Enabled",
             "description": "If this organization has issue funding enabled",
+            "default": false
+          },
+          "seat_based_pricing_enabled": {
+            "type": "boolean",
+            "title": "Seat Based Pricing Enabled",
+            "description": "If this organization has seat-based pricing enabled",
             "default": false
           }
         },
@@ -43393,6 +44943,16 @@
             "anyOf": [
               {
                 "$ref": "#/components/schemas/OrganizationNotificationSettings"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "customer_email_settings": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/OrganizationCustomerEmailSettings"
               },
               {
                 "type": "null"
@@ -43965,7 +45525,7 @@
           },
           "prices": {
             "items": {
-              "anyOf": [
+              "oneOf": [
                 {
                   "$ref": "#/components/schemas/ProductPriceFixedCreate"
                 },
@@ -43976,9 +45536,22 @@
                   "$ref": "#/components/schemas/ProductPriceFreeCreate"
                 },
                 {
+                  "$ref": "#/components/schemas/ProductPriceSeatBasedCreate"
+                },
+                {
                   "$ref": "#/components/schemas/ProductPriceMeteredUnitCreate"
                 }
-              ]
+              ],
+              "discriminator": {
+                "propertyName": "amount_type",
+                "mapping": {
+                  "custom": "#/components/schemas/ProductPriceCustomCreate",
+                  "fixed": "#/components/schemas/ProductPriceFixedCreate",
+                  "free": "#/components/schemas/ProductPriceFreeCreate",
+                  "metered_unit": "#/components/schemas/ProductPriceMeteredUnitCreate",
+                  "seat_based": "#/components/schemas/ProductPriceSeatBasedCreate"
+                }
+              }
             },
             "type": "array",
             "minItems": 1,
@@ -44094,7 +45667,7 @@
           },
           "prices": {
             "items": {
-              "anyOf": [
+              "oneOf": [
                 {
                   "$ref": "#/components/schemas/ProductPriceFixedCreate"
                 },
@@ -44105,9 +45678,22 @@
                   "$ref": "#/components/schemas/ProductPriceFreeCreate"
                 },
                 {
+                  "$ref": "#/components/schemas/ProductPriceSeatBasedCreate"
+                },
+                {
                   "$ref": "#/components/schemas/ProductPriceMeteredUnitCreate"
                 }
-              ]
+              ],
+              "discriminator": {
+                "propertyName": "amount_type",
+                "mapping": {
+                  "custom": "#/components/schemas/ProductPriceCustomCreate",
+                  "fixed": "#/components/schemas/ProductPriceFixedCreate",
+                  "free": "#/components/schemas/ProductPriceFreeCreate",
+                  "metered_unit": "#/components/schemas/ProductPriceMeteredUnitCreate",
+                  "seat_based": "#/components/schemas/ProductPriceSeatBasedCreate"
+                }
+              }
             },
             "type": "array",
             "minItems": 1,
@@ -44433,6 +46019,9 @@
             "$ref": "#/components/schemas/ProductPriceFree"
           },
           {
+            "$ref": "#/components/schemas/ProductPriceSeatBased"
+          },
+          {
             "$ref": "#/components/schemas/ProductPriceMeteredUnit"
           }
         ],
@@ -44442,7 +46031,8 @@
             "custom": "#/components/schemas/ProductPriceCustom",
             "fixed": "#/components/schemas/ProductPriceFixed",
             "free": "#/components/schemas/ProductPriceFree",
-            "metered_unit": "#/components/schemas/ProductPriceMeteredUnit"
+            "metered_unit": "#/components/schemas/ProductPriceMeteredUnit",
+            "seat_based": "#/components/schemas/ProductPriceSeatBased"
           }
         }
       },
@@ -44921,6 +46511,7 @@
           },
           "unit_amount": {
             "type": "string",
+            "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
             "title": "Unit Amount",
             "description": "The price per unit in cents."
           },
@@ -44993,7 +46584,8 @@
                 "exclusiveMinimum": 0
               },
               {
-                "type": "string"
+                "type": "string",
+                "pattern": "^(?!^[-+.]*$)[+-]?0*(?:\\d{0,5}|(?=[\\d.]{1,18}0*$)\\d{0,5}\\.\\d{0,12}0*$)"
               }
             ],
             "title": "Unit Amount",
@@ -45022,6 +46614,173 @@
         ],
         "title": "ProductPriceMeteredUnitCreate",
         "description": "Schema to create a metered price with a fixed unit price."
+      },
+      "ProductPriceSeatBased": {
+        "properties": {
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At",
+            "description": "Creation timestamp of the object."
+          },
+          "modified_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Modified At",
+            "description": "Last modification timestamp of the object."
+          },
+          "id": {
+            "type": "string",
+            "format": "uuid4",
+            "title": "Id",
+            "description": "The ID of the price."
+          },
+          "amount_type": {
+            "type": "string",
+            "const": "seat_based",
+            "title": "Amount Type"
+          },
+          "is_archived": {
+            "type": "boolean",
+            "title": "Is Archived",
+            "description": "Whether the price is archived and no longer available."
+          },
+          "product_id": {
+            "type": "string",
+            "format": "uuid4",
+            "title": "Product Id",
+            "description": "The ID of the product owning the price."
+          },
+          "type": {
+            "$ref": "#/components/schemas/ProductPriceType",
+            "deprecated": true
+          },
+          "recurring_interval": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/SubscriptionRecurringInterval"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "deprecated": true
+          },
+          "price_currency": {
+            "type": "string",
+            "title": "Price Currency",
+            "description": "The currency."
+          },
+          "seat_tiers": {
+            "$ref": "#/components/schemas/ProductPriceSeatTiers",
+            "description": "Tiered pricing based on seat quantity"
+          }
+        },
+        "type": "object",
+        "required": [
+          "created_at",
+          "modified_at",
+          "id",
+          "amount_type",
+          "is_archived",
+          "product_id",
+          "type",
+          "recurring_interval",
+          "price_currency",
+          "seat_tiers"
+        ],
+        "title": "ProductPriceSeatBased",
+        "description": "A seat-based price for a product."
+      },
+      "ProductPriceSeatBasedCreate": {
+        "properties": {
+          "amount_type": {
+            "type": "string",
+            "const": "seat_based",
+            "title": "Amount Type"
+          },
+          "price_currency": {
+            "type": "string",
+            "pattern": "usd",
+            "title": "Price Currency",
+            "description": "The currency. Currently, only `usd` is supported.",
+            "default": "usd"
+          },
+          "seat_tiers": {
+            "$ref": "#/components/schemas/ProductPriceSeatTiers",
+            "description": "Tiered pricing based on seat quantity"
+          }
+        },
+        "type": "object",
+        "required": [
+          "amount_type",
+          "seat_tiers"
+        ],
+        "title": "ProductPriceSeatBasedCreate",
+        "description": "Schema to create a seat-based price with volume-based tiers."
+      },
+      "ProductPriceSeatTier": {
+        "properties": {
+          "min_seats": {
+            "type": "integer",
+            "minimum": 1,
+            "title": "Min Seats",
+            "description": "Minimum number of seats (inclusive)"
+          },
+          "max_seats": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Max Seats",
+            "description": "Maximum number of seats (inclusive). None for unlimited."
+          },
+          "price_per_seat": {
+            "type": "integer",
+            "maximum": 99999999,
+            "minimum": 50,
+            "title": "Price Per Seat",
+            "description": "Price per seat in cents for this tier"
+          }
+        },
+        "type": "object",
+        "required": [
+          "min_seats",
+          "price_per_seat"
+        ],
+        "title": "ProductPriceSeatTier",
+        "description": "A pricing tier for seat-based pricing."
+      },
+      "ProductPriceSeatTiers": {
+        "properties": {
+          "tiers": {
+            "items": {
+              "$ref": "#/components/schemas/ProductPriceSeatTier"
+            },
+            "type": "array",
+            "minItems": 1,
+            "title": "Tiers",
+            "description": "List of pricing tiers"
+          }
+        },
+        "type": "object",
+        "required": [
+          "tiers"
+        ],
+        "title": "ProductPriceSeatTiers",
+        "description": "List of pricing tiers for seat-based pricing."
       },
       "ProductPriceType": {
         "type": "string",
@@ -45157,16 +46916,33 @@
                       "$ref": "#/components/schemas/ExistingProductPrice"
                     },
                     {
-                      "$ref": "#/components/schemas/ProductPriceFixedCreate"
-                    },
-                    {
-                      "$ref": "#/components/schemas/ProductPriceCustomCreate"
-                    },
-                    {
-                      "$ref": "#/components/schemas/ProductPriceFreeCreate"
-                    },
-                    {
-                      "$ref": "#/components/schemas/ProductPriceMeteredUnitCreate"
+                      "oneOf": [
+                        {
+                          "$ref": "#/components/schemas/ProductPriceFixedCreate"
+                        },
+                        {
+                          "$ref": "#/components/schemas/ProductPriceCustomCreate"
+                        },
+                        {
+                          "$ref": "#/components/schemas/ProductPriceFreeCreate"
+                        },
+                        {
+                          "$ref": "#/components/schemas/ProductPriceSeatBasedCreate"
+                        },
+                        {
+                          "$ref": "#/components/schemas/ProductPriceMeteredUnitCreate"
+                        }
+                      ],
+                      "discriminator": {
+                        "propertyName": "amount_type",
+                        "mapping": {
+                          "custom": "#/components/schemas/ProductPriceCustomCreate",
+                          "fixed": "#/components/schemas/ProductPriceFixedCreate",
+                          "free": "#/components/schemas/ProductPriceFreeCreate",
+                          "metered_unit": "#/components/schemas/ProductPriceMeteredUnitCreate",
+                          "seat_based": "#/components/schemas/ProductPriceSeatBasedCreate"
+                        }
+                      }
                     }
                   ]
                 },
@@ -45832,6 +47608,127 @@
           "webhooks:read": "Read webhooks",
           "webhooks:write": "Create or modify webhooks"
         }
+      },
+      "SeatAssign": {
+        "properties": {
+          "subscription_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Subscription Id",
+            "description": "Subscription ID. Required if checkout_id is not provided."
+          },
+          "checkout_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Checkout Id",
+            "description": "Checkout ID. Used to look up subscription. Required if subscription_id is not provided."
+          },
+          "email": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "email"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Email",
+            "description": "Email of the customer to assign the seat to"
+          },
+          "external_customer_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "External Customer Id",
+            "description": "External customer ID for the seat assignment"
+          },
+          "customer_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Customer Id",
+            "description": "Customer ID for the seat assignment"
+          },
+          "metadata": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Metadata",
+            "description": "Additional metadata for the seat (max 10 keys, 1KB total)"
+          }
+        },
+        "type": "object",
+        "title": "SeatAssign"
+      },
+      "SeatStatus": {
+        "type": "string",
+        "enum": [
+          "pending",
+          "claimed",
+          "revoked"
+        ],
+        "title": "SeatStatus"
+      },
+      "SeatsList": {
+        "properties": {
+          "seats": {
+            "items": {
+              "$ref": "#/components/schemas/CustomerSeat"
+            },
+            "type": "array",
+            "title": "Seats",
+            "description": "List of seats"
+          },
+          "available_seats": {
+            "type": "integer",
+            "title": "Available Seats",
+            "description": "Number of available seats"
+          },
+          "total_seats": {
+            "type": "integer",
+            "title": "Total Seats",
+            "description": "Total number of seats for the subscription"
+          }
+        },
+        "type": "object",
+        "required": [
+          "seats",
+          "available_seats",
+          "total_seats"
+        ],
+        "title": "SeatsList"
       },
       "Status": {
         "type": "string",
@@ -48958,6 +50855,69 @@
           "refresh_token"
         ],
         "title": "RefreshTokenRequest",
+        "type": "object"
+      },
+      "WebTokenRequest": {
+        "properties": {
+          "grant_type": {
+            "const": "web",
+            "title": "Grant Type",
+            "type": "string"
+          },
+          "client_id": {
+            "title": "Client Id",
+            "type": "string"
+          },
+          "client_secret": {
+            "title": "Client Secret",
+            "type": "string"
+          },
+          "session_token": {
+            "title": "Session Token",
+            "type": "string"
+          },
+          "sub_type": {
+            "default": "user",
+            "enum": [
+              "user",
+              "organization"
+            ],
+            "title": "Sub Type",
+            "type": "string"
+          },
+          "sub": {
+            "anyOf": [
+              {
+                "format": "uuid4",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Sub"
+          },
+          "scope": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Scope"
+          }
+        },
+        "required": [
+          "grant_type",
+          "client_id",
+          "client_secret",
+          "session_token"
+        ],
+        "title": "WebTokenRequest",
         "type": "object"
       },
       "RevokeTokenRequest": {
